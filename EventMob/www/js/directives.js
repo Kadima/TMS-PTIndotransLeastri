@@ -1,4 +1,4 @@
-angular.module('SysTodoList.directives', [])
+angular.module('EventMob.directives', [])
 .directive('dateFormat', ['$filter', function ($filter) {
     var dateFilter = $filter('date');
     return {

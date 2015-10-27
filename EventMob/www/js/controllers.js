@@ -1,4 +1,4 @@
-angular.module('SysTodoList.controllers', [
+angular.module('EventMob.controllers', [
     'ionic',
     'ngCordova.plugins.dialogs',
     'ngCordova.plugins.toast',
@@ -7,8 +7,8 @@ angular.module('SysTodoList.controllers', [
     'ngCordova.plugins.fileTransfer',
     'ngCordova.plugins.fileOpener2',
     'ngCordova.plugins.datePicker',
-    'SysTodoList.directives',
-    'SysTodoList.services'
+    'EventMob.directives',
+    'EventMob.services'
 ])
 
     .controller('LoadingCtrl',
@@ -44,7 +44,6 @@ angular.module('SysTodoList.controllers', [
                     })
                     .error(function (res) {});
             }
-
             $scope.checkUpdate = function () {
                 var url = strWebServiceURL + strBaseUrl + '/update.json';
                 $http.get(url)
@@ -74,11 +73,9 @@ angular.module('SysTodoList.controllers', [
                         }, 2500);
                     });
             };
-
             $scope.setConf = function () {
                 $state.go('setting', {}, { reload: true });
             };
-
             $scope.login = function () {
                 if (window.cordova && window.cordova.plugins.Keyboard) {
                     cordova.plugins.Keyboard.close();
@@ -96,7 +93,6 @@ angular.module('SysTodoList.controllers', [
                 $ionicLoading.show();
                 var jsonData = { "PhoneNumber": $scope.logininfo.strPhoneNumber };
                 var strUri = "/api/event/action/list/login";
-                var strKey = hex_md5(strBaseUrl + strUri + strSecretKey.replace(/-/ig, ""));
                 var onSuccess = function (response) {
                     $ionicLoading.hide();
                     sessionStorage.clear();
@@ -107,7 +103,7 @@ angular.module('SysTodoList.controllers', [
                 var onError = function () {
                     $ionicLoading.hide();
                 };
-                JsonServiceClient.postToService(strUri, jsonData, strKey, onSuccess, onError);
+                JsonServiceClient.postToService(strUri, jsonData, onSuccess, onError);
             };
         }])
 
@@ -228,8 +224,10 @@ angular.module('SysTodoList.controllers', [
                 $scope.strDriverName = strDriverName;
             }
             $scope.strItemsCount = "loading...";
+            $scope.showList = function (strJobNo) {
+                $state.go('list', { 'JobNo': strJobNo }, { reload: true });
+            };
             var strUri = "/api/event/action/list/jobno/";
-            var strKey = hex_md5(strBaseUrl + strUri + strPhoneNumber + "?format=json" + strSecretKey.replace(/-/ig, ""));
             var onSuccess = function (response) {
                 if (response.data.results.length === 1 && $stateParams.blnForcedReturn === 'N') {
                     $state.go('list', { 'JobNo': response.data.results[0].JobNo }, { reload: true });
@@ -238,10 +236,7 @@ angular.module('SysTodoList.controllers', [
             };
             var onError = function () {
             };
-            JsonServiceClient.getFromService(strUri + strPhoneNumber, strKey, onSuccess, onError);
-            $scope.showList = function (strJobNo) {
-                $state.go('list', { 'JobNo': strJobNo }, { reload: true });
-            };
+            JsonServiceClient.getFromService(strUri + strPhoneNumber, onSuccess, onError);
         }])
 
     .controller('ListCtrl',
@@ -252,8 +247,7 @@ angular.module('SysTodoList.controllers', [
             $scope.JobNo = $stateParams.JobNo;
             var strPhoneNumber = sessionStorage.getItem("strPhoneNumber");
             var strJobNo = $scope.JobNo;
-            var strUri = "/api/event/action/list/container/";
-            var strKey = hex_md5(strBaseUrl + strUri + strPhoneNumber + "/" + strJobNo + "?format=json" + strSecretKey.replace(/-/ig, ""));
+            var strUri = "/api/event/action/list/container/" + strPhoneNumber + "/" + strJobNo;
             var onSuccess = function (response) {
                 $ionicLoading.hide();
                 $scope.tasks = response.data.results;
@@ -278,10 +272,10 @@ angular.module('SysTodoList.controllers', [
                 getData();
             };
             var getData = function () {                
-                JsonServiceClient.getFromService(strUri + strPhoneNumber + "/" + strJobNo, strKey, onSuccess, onError);
+                JsonServiceClient.getFromService(strUri, onSuccess, onError);
             };
             $scope.doRefresh = function () {
-                JsonServiceClient.getFromService(strUri + strPhoneNumber + "/" + strJobNo, strKey, onSuccess, onError, onFinally);
+                JsonServiceClient.getFromService(strUri, onSuccess, onError, onFinally);
                 $scope.$apply();
             };
             $scope.returnMain = function () {
@@ -324,35 +318,6 @@ angular.module('SysTodoList.controllers', [
                         }, 2500);
                     }
                 }
-                /*
-                var hideSheet = $ionicActionSheet.show({
-                    titleText: ' <H4>Task "' + task.Description + '" Completed ?</H4>',
-                    destructiveText: '<i class="icon ion-android-done calm"></i>  Done',
-                    cancelText: '<i class="icon ion-android-cancel balanced"></i>  Cancel',
-                    cancel: function () {
-                        hideSheet();
-                    },
-                    destructiveButtonClicked: function ()
-                    {
-                        //setDoneFlag(task.JobNo, task.JobLineItemNo, task.LineItemNo, false);
-                        //$scope.tasks.splice($scope.tasks.indexOf(task), 1);
-                        //hideSheet();
-                        /*
-                        if($scope.tasks.length<1){
-                            var alertPopup = $ionicPopup.alert({
-                                title: 'No Tasks.',
-                                okType: 'button-calm'
-                            });
-                            $timeout(function() {
-                                alertPopup.close();
-                            }, 2500);
-                        }
-                    }
-                });
-                $timeout(function() {
-                    hideSheet();
-                }, 4500);
-                */
             };
             getTasks();
         }])
@@ -390,7 +355,6 @@ angular.module('SysTodoList.controllers', [
                 currentDate.setMinutes($scope.Update.datetime.getMinutes());
                 var jsonData = { "JobNo": $scope.strJobNo, "JobLineItemNo": $scope.strJobLineItemNo, "LineItemNo": $scope.strLineItemNo, "DoneFlag": $scope.strDoneFlag, "DoneDatetime": currentDate, "Remark": $scope.Update.remark };
                 var strUri = "/api/event/action/update/done";
-                var strKey = hex_md5(strBaseUrl + strUri + strSecretKey.replace(/-/ig, ""));
                 var onSuccess = function (response) {
                     $ionicLoading.hide();
                     $state.go('list', { 'JobNo': $scope.strJobNo }, { reload: true });
@@ -406,6 +370,6 @@ angular.module('SysTodoList.controllers', [
                         $state.go('list', { 'JobNo': $scope.strJobNo }, { reload: true });
                     }, 2500);
                 };
-                JsonServiceClient.postToService(strUri, jsonData, strKey, onSuccess, onError);
+                JsonServiceClient.postToService(strUri, jsonData, onSuccess, onError);
             };
         }])

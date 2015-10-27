@@ -1,6 +1,6 @@
-angular.module('SysTodoList.services', ['ionic'])
+angular.module('EventMob.services', ['ionic'])
 .service('JsonServiceClient', ['$http', '$ionicPopup', '$timeout', function ($http, $ionicPopup, $timeout) {
-    function parseResponseStatus (status) {
+    function parseResponseStatus(status) {
         if (!status) return { isSuccess: true };
         var result =
         {
@@ -25,7 +25,8 @@ angular.module('SysTodoList.services', ['ionic'])
         */
         return result;
     }
-    this.postToService = function (requestUrl, requestData, strSignature, onSuccess, onError) {
+    this.postToService = function (requestUrl, requestData, onSuccess, onError) {
+        var strSignature = hex_md5(strBaseUrl + requestUrl + strSecretKey.replace(/-/ig, ""));
         $http({
             method: "POST",
             url: strWebServiceURL + strBaseUrl + requestUrl,
@@ -43,7 +44,6 @@ angular.module('SysTodoList.services', ['ionic'])
                 if (onSuccess) onSuccess(response);
             }
             else {
-                if (onError) onError(response);
                 var alertPopup = $ionicPopup.alert({
                     title: response.meta.message,
                     subTitle: response.meta.errors.message,
@@ -51,7 +51,8 @@ angular.module('SysTodoList.services', ['ionic'])
                 });
                 $timeout(function () {
                     alertPopup.close();
-                }, 2500);
+                }, 5000);
+                if (onError) onError(response);
             }
         }).error(function (response) {
             try {
@@ -67,7 +68,8 @@ angular.module('SysTodoList.services', ['ionic'])
             catch (e) { }
         });
     }
-    this.getFromService = function (requestUrl, strSignature, onSuccess, onError, onFinally) {
+    this.getFromService = function (requestUrl, onSuccess, onError, onFinally) {
+        var strSignature = hex_md5(strBaseUrl + requestUrl + "?format=json" + strSecretKey.replace(/-/ig, ""));
         $http({
             method: "GET",
             url: strWebServiceURL + strBaseUrl + requestUrl + "?format=json",
@@ -92,11 +94,10 @@ angular.module('SysTodoList.services', ['ionic'])
                 });
                 $timeout(function () {
                     alertPopup.close();
-                }, 2500);
+                }, 5000);
             }
         }).error(function (response) {
             try {
-                if (onError) onError(response);
                 var alertPopup = $ionicPopup.alert({
                     title: 'Connect to WebService failed.',
                     okType: 'button-assertive'
@@ -104,6 +105,7 @@ angular.module('SysTodoList.services', ['ionic'])
                 $timeout(function () {
                     alertPopup.close();
                 }, 2500);
+                if (onError) onError(response);
             }
             catch (e) { }
         }).finally(function () {
