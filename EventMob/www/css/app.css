@@ -1,0 +1,55 @@
+html {
+  background-color: #fff;
+}
+ .app {
+  position: relative;
+  height: 100%;
+  -webkit-transition: all .4s;
+  -moz-transition: all .4s;
+  -o-transition: all .4s;
+  transition: all .4s;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+.Center-Container {
+  position: relative;
+}
+.Absolute-Center {
+  width: 68%;
+  height: 15%;
+  overflow: auto;
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+}
+.Absolute-Center.is-Responsive {
+  width: 90%; 
+  height: 60%;
+  min-width: 200px;
+  max-width: 400px;
+  padding: 40px;
+}
+.Absolute-Center.is-Image {
+  text-align: center;
+  vertical-align:middle;
+}
+.Absolute-Center.is-Image img { 
+  width: 100%;
+  height: auto;
+}
+.tc-light-blue-A700 {
+    color: #0091EA!important;
+}
+.mainList a {
+	text-decoration: none;
+}
+.comments { 
+	width:100%;
+	overflow:auto;
+}
+.bar-footer {
+    height:3.2em;
+}

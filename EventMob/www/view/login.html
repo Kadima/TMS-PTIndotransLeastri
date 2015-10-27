@@ -1,0 +1,34 @@
+<ion-view title="Login">
+	<ion-side-menus enable-menu-with-back-views="true">
+		<ion-side-menu-content>
+			<div style="text-align:center; margin-left:auto; margin-right:auto;">
+				<img src="./img/login.png"/ width="60%" height="60%">
+			</div>
+			<div class="list list-inset">
+				<label class="item item-input">
+					<i class="icon ion-android-call placeholder-icon"></i>&nbsp;&nbsp;
+					<input type="tel" id="iPhoneNumber" placeholder="Phone Number" required ng-model="logininfo.strPhoneNumber">
+				</label>
+				<button class="button button-block button-positive" ng-click="login()">SIGN IN</button>
+			</div>
+		</ion-side-menu-content>
+		<ion-side-menu side="left">
+			<ion-header-bar align-title="center" class="bar-positive">
+				<h1 class="title">Settings</h1>
+				<div class="buttons pull-right" nav-clear menu-close>  
+					<button class="button button-icon icon ion-android-options"></button>  
+				</div> 
+			</ion-header-bar>
+			<ion-content class="has-header">  
+				<ion-list>  
+					<ion-item nav-clear ng-click="setConf()">  
+						<i class="icon ion-android-settings"></i> Server-Side Configuration
+					</ion-item>
+                    <ion-item nav-clear ng-click="checkUpdate()">
+                        <i class="icon ion-arrow-up-c"></i> Check New Version
+                    </ion-item>  
+				</ion-list>  
+			</ion-content> 
+		</ion-side-menu>
+	</ion-side-menus>
+</ion-view>

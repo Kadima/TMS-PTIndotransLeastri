@@ -1,0 +1,15 @@
+﻿<ion-view title="Main">
+	<ion-header-bar class="bar-positive">
+	  <div class="h1 title" >Hi {{ strDriverName }}</div>
+	</ion-header-bar>
+	<ion-content>			
+		<div class="mainList">
+			<div class="list card" ng-repeat="Job in Jobs" ng-click="showList(Job.JobNo)">
+				<div class="item item-body">
+					<p>Job No&nbsp;&nbsp;/&nbsp;&nbsp;<span class="tc-light-blue-A700" style="font-size:1.2em;">{{ Job.JobNo }}</span></p>
+					<p>{{ Job.ContainerCounts }} Tasks</p>
+				</div>
+			</div>
+		</div>		
+	</ion-content>
+</ion-view>

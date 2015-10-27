@@ -1,0 +1,38 @@
+﻿<ion-view title="Detail">
+	<ion-header-bar class="bar-positive">
+		<button class="button button-icon icon ion-navicon" ng-click="returnList()"></button>
+		<div class="h1 title" ng-bind="strDoneOrUpdateTitle"></div>
+	</ion-header-bar>
+	<ion-pane>
+		<div style="margin-top:4em;">
+			<div class="list card">
+				<div class="item">
+					<h2>Task Name&nbsp;&nbsp;:&nbsp;&nbsp;{{ strDescription }}</h2>
+					<p>Container No&nbsp;&nbsp;:&nbsp;&nbsp;{{ strContainerNo }}</p>
+				</div>
+				<div class="item item-body">
+					<div class="list">
+						<label class="item item-input item-stacked-label" ng-show="strDoneFlag!='N'">
+							<i class="icon ion-android-calendar placeholder-icon"></i>
+							<span class="input-label">Completed Time</span>
+							<input type="datetime" ng-model="Update.strDatetime" date-Format readonly>
+						</label>
+						<label class="item item-input item-stacked-label">
+							<i class="icon ion-android-document placeholder-icon"></i>
+							<span class="input-label">Remark</span>
+							<div>
+								<textarea name="remark" class="comments" ng-model="Update.remark" placeholder="remark something here." rows="8em" cols="1"></textarea>
+							</div>
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ion-pane>
+	<ion-footer-bar>
+		<div class="button-bar">
+			<a class="button button-positive" ng-click="update()" ng-bind="strDoneOrUpdate"></a>
+			<a class="button button-light" ng-click="returnList()">Cancel</a>
+		</div>
+	</ion-footer-bar>
+</ion-view>

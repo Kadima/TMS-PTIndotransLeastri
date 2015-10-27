@@ -1,0 +1,16 @@
+<ion-view title="Update">
+	<ion-pane>
+		<div class="Absolute-Center is-Responsive" style="text-align:center;">
+			<i class="icon ion-android-alert placeholder-icon" style="font-size:2.5em;"></i>
+			<h4>New Version is available</h4>
+			<p>Latest Version : {{ strVersion }}</p>
+			<p></p>
+			<button class="button button-block button-positive" ng-click="upgrade()">
+				Upgrade Now
+			</button>
+			<button class="button button-block button-stable" ng-click="returnLogin()">
+				Ignore
+			</button>
+		</div>
+	</ion-pane>
+</ion-view>

@@ -1,0 +1,27 @@
+<ion-view title="Setting">
+	<ion-header-bar class="bar-positive">
+		<button class="button button-icon icon ion-navicon" ng-click="returnLogin()"></button>
+		<div class="h1 title" >Server-Side Configuration</div>
+	</ion-header-bar>
+	<ion-content>
+		<div class="list list-inset">
+			<label class="item item-input item-stacked-label">
+				<span class="input-label">Server URL</span>
+				<input type="text" placeholder="www.sysfreight.com" ng-model="Setting.WebServiceURL">
+			</label>
+			<label class="item item-input item-stacked-label">
+				<span class="input-label">Web Service Name</span>
+				<input type="text" placeholder="TmsWS" ng-model="Setting.BaseUrl">
+			</label>
+			<button class="button button-block button-positive" ng-click="saveSetting()">
+				Update
+			</button>
+			<button class="button button-block button-stable" ng-click="returnLogin()">
+				Cancel
+			</button>
+            <button class="button button-block button-assertive" ng-click="delSetting()">
+                Delete Config File
+            </button>
+		</div>
+	</ion-content>
+</ion-view>

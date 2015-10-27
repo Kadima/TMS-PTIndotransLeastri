@@ -1,0 +1,23 @@
+<ion-view title="List">
+	<ion-header-bar class="bar-positive">
+		<button class="button button-icon icon ion-navicon" ng-click="returnMain()"></button>
+		<div class="h1 title">TASKS / <span ng-bind="JobNo"><span></div>
+	</ion-header-bar>
+	<ion-content>
+		<ion-refresher pulling-text="Pull to refresh" on-refresh="doRefresh()">
+		</ion-refresher>
+		<ion-list show-delete="shouldShowDelete" can-swipe="listCanSwipe">
+			<ion-item ng-repeat="task in tasks" id="Task{{ task.Index }}" class="item-remove-animate item-icon-right" >
+			    <p style="font-size:0.8em;">Event Name&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;<span ng-bind="task.ItemName" style="font-size:1.3em;"></span></p>
+			    <p style="font-size:0.8em;" ng-show="showContainerNo(task)">Container No&nbsp;&nbsp;:&nbsp;&nbsp;<span ng-bind="task.ContainerNo" style="font-size:1.3em;"></span></p>
+			    <i class="icon ion-android-arrow-dropleft"></i>
+                <ion-option-button class="button-assertive" ng-click="slideDone(task,'N')">
+                    Remark
+                </ion-option-button>
+			    <ion-option-button class="button-calm" ng-click="slideDone(task, 'Y')">
+				    Done
+			    </ion-option-button>
+			</ion-item>
+		</ion-list>
+	</ion-content>
+</ion-view>
