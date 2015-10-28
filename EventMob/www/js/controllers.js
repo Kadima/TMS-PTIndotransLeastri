@@ -7,6 +7,7 @@ angular.module('EventMob.controllers', [
     'ngCordova.plugins.fileTransfer',
     'ngCordova.plugins.fileOpener2',
     'ngCordova.plugins.datePicker',
+    'ngMessages',
     'EventMob.directives',
     'EventMob.services'
 ])
@@ -331,6 +332,7 @@ angular.module('EventMob.controllers', [
             $scope.strLineItemNo = $stateParams.LineItemNo;
             $scope.strDescription = $stateParams.Description;
             $scope.Update = {};
+			$scope.Update.ContainerNo = "";
             $scope.Update.remark = $stateParams.Remark;
             $scope.strDoneFlag = $stateParams.DoneFlag;
             if ($scope.strDoneFlag === 'N') {
@@ -353,7 +355,7 @@ angular.module('EventMob.controllers', [
                 currentDate.setDate($scope.Update.datetime.getDate());
                 currentDate.setHours($scope.Update.datetime.getHours());
                 currentDate.setMinutes($scope.Update.datetime.getMinutes());
-                var jsonData = { "JobNo": $scope.strJobNo, "JobLineItemNo": $scope.strJobLineItemNo, "LineItemNo": $scope.strLineItemNo, "DoneFlag": $scope.strDoneFlag, "DoneDatetime": currentDate, "Remark": $scope.Update.remark };
+                var jsonData = { "JobNo": $scope.strJobNo, "JobLineItemNo": $scope.strJobLineItemNo, "LineItemNo": $scope.strLineItemNo, "DoneFlag": $scope.strDoneFlag, "DoneDatetime": currentDate, "Remark": $scope.Update.remark, "ContainerNo": $scope.Update.ContainerNo };
                 var strUri = "/api/event/action/update/done";
                 var onSuccess = function (response) {
                     $ionicLoading.hide();

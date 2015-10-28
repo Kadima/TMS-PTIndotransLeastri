@@ -1,9 +1,10 @@
 {
   "dependencies": {
-    "ngCordova": "~0.1.19-alpha",
-    "jquery": "~2.1.4",
+    "angular-messages": "~1.4.7",
     "html5-boilerplate": "~5.2.0",
-    "ionic": "~1.0.1"
+    "ionic": "~1.0.1",
+    "jquery": "~2.1.4",
+    "ngCordova": "~0.1.19-alpha"
   },
   "devDependencies": {
     "ionic": "driftyco/ionic-bower#1.0.1"

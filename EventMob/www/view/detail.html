@@ -11,27 +11,35 @@
 					<p>Container No&nbsp;&nbsp;:&nbsp;&nbsp;{{ strContainerNo }}</p>
 				</div>
 				<div class="item item-body">
-					<div class="list">
-						<label class="item item-input item-stacked-label" ng-show="strDoneFlag!='N'">
-							<i class="icon ion-android-calendar placeholder-icon"></i>
-							<span class="input-label">Completed Time</span>
-							<input type="datetime" ng-model="Update.strDatetime" date-Format readonly>
-						</label>
-						<label class="item item-input item-stacked-label">
-							<i class="icon ion-android-document placeholder-icon"></i>
-							<span class="input-label">Remark</span>
-							<div>
-								<textarea name="remark" class="comments" ng-model="Update.remark" placeholder="remark something here." rows="8em" cols="1"></textarea>
-							</div>
-						</label>
-					</div>
-				</div>
+                    <form role="form" name="detail" class="form-horizontal" novalidate>
+                        <div class="list">
+                            <label class="item item-input item-stacked-label" ng-show="strDoneFlag!='N'">
+                                <i class="icon ion-android-calendar placeholder-icon"></i>
+                                <span class="input-label">Completed Time</span>
+                                <input type="datetime" ng-model="Update.strDatetime" date-Format readonly>
+                            </label>
+                            <label class="item item-input item-stacked-label">
+                                <i class="icon ion-android-document placeholder-icon"></i>
+                                <span class="input-label">Container No</span>
+                                <input name="ContainerNo" type="text" ng-model="Update.ContainerNo" ng-maxlength="13">
+                                <span style="color:red" ng-show="detail.ContainerNo.$invalid">
+                                    <span>Container No should be less than or equal to 13 characters.</span>
+                                </span>
+                            </label>
+                            <label class="item item-input item-stacked-label">
+                                <i class="icon ion-android-document placeholder-icon"></i>
+                                <span class="input-label">Remark</span>
+                                <textarea name="remark" class="comments" ng-model="Update.remark" placeholder="remark something here." rows="8em" cols="1"></textarea>
+                            </label>
+                        </div>
+                    </form>                        
+                </div>
 			</div>
 		</div>
 	</ion-pane>
 	<ion-footer-bar>
 		<div class="button-bar">
-			<a class="button button-positive" ng-click="update()" ng-bind="strDoneOrUpdate"></a>
+			<a class="button button-positive" ng-click="update()" ng-bind="strDoneOrUpdate" ng-disabled="detail.$invalid"></a>
 			<a class="button button-light" ng-click="returnList()">Cancel</a>
 		</div>
 	</ion-footer-bar>
