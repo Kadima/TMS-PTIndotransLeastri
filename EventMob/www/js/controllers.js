@@ -332,7 +332,7 @@ angular.module('EventMob.controllers', [
             $scope.strLineItemNo = $stateParams.LineItemNo;
             $scope.strDescription = $stateParams.Description;
             $scope.Update = {};
-			$scope.Update.ContainerNo = "";
+            $scope.Update.ContainerNo = $scope.strContainerNo;
             $scope.Update.remark = $stateParams.Remark;
             $scope.strDoneFlag = $stateParams.DoneFlag;
             if ($scope.strDoneFlag === 'N') {

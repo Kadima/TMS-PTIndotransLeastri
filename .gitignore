@@ -210,8 +210,9 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
-merges
-plugins
-platforms
-res
-lib
+merges/
+plugins/
+platforms/
+res/
+lib/
+www/lib/
