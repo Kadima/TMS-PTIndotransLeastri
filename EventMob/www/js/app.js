@@ -14,7 +14,7 @@ app.run(['$ionicPlatform', '$rootScope', '$state', '$location', '$timeout', '$io
             if (window.cordova && window.cordova.plugins.Keyboard) {
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
                 //
-                var data = 'BaseUrl=' + strBaseUrl + '##WebServiceURL=' + strWebServiceURL;
+                var data = 'BaseUrl=' + strBaseUrl + '##WebServiceURL=' + strWebServiceURL + '##WebSiteURL=' + strWebSiteURL;
                 var path = cordova.file.externalRootDirectory;
                 var directory = "TmsApp";
                 var file = directory + "/Config.txt";
@@ -28,6 +28,9 @@ app.run(['$ionicPlatform', '$rootScope', '$state', '$location', '$timeout', '$io
                                 }
                                 if (strWebServiceURL.length > 0) {
                                     strWebServiceURL = "http://" + strWebServiceURL;
+                                }
+                                if (strWebSiteURL.length > 0) {
+                                    strWebSiteURL = "http://" + strWebSiteURL;
                                 }
                             }, function (error) {
                                 $cordovaToast.showShortBottom(error);
@@ -47,12 +50,19 @@ app.run(['$ionicPlatform', '$rootScope', '$state', '$location', '$timeout', '$io
                                         if (arWebServiceURL[1].length > 0) {
                                             strWebServiceURL = arWebServiceURL[1];
                                         }
+                                        var arWebSiteURL = arConf[2].split("=");
+                                        if (arWebSiteURL[1].length > 0) {
+                                            strWebSiteURL = arWebSiteURL[1];
+                                        }
                                         //
                                         if (strBaseUrl.length > 0) {
                                             strBaseUrl = "/" + strBaseUrl;
                                         }
                                         if (strWebServiceURL.length > 0) {
                                             strWebServiceURL = "http://" + strWebServiceURL;
+                                        }
+                                        if (strWebSiteURL.length > 0) {
+                                            strWebSiteURL = "http://" + strWebSiteURL;
                                         }
                                     }, function (error) {
                                         $cordovaToast.showShortBottom(error);
@@ -68,6 +78,9 @@ app.run(['$ionicPlatform', '$rootScope', '$state', '$location', '$timeout', '$io
                                         if (strWebServiceURL.length > 0) {
                                             strWebServiceURL = "http://" + strWebServiceURL;
                                         }
+                                        if (strWebSiteURL.length > 0) {
+                                            strWebSiteURL = "http://" + strWebSiteURL;
+                                        }
                                     }, function (error) {
                                         $cordovaToast.showShortBottom(error);
                                     });
@@ -79,6 +92,9 @@ app.run(['$ionicPlatform', '$rootScope', '$state', '$location', '$timeout', '$io
                 }
                 if (strWebServiceURL.length > 0) {
                     strWebServiceURL = "http://" + strWebServiceURL;
+                }
+                if (strWebSiteURL.length > 0) {
+                    strWebSiteURL = "http://" + strWebSiteURL;
                 }
             }
             if (window.StatusBar) {
@@ -120,8 +136,9 @@ app.run(['$ionicPlatform', '$rootScope', '$state', '$location', '$timeout', '$io
         }, 101);
     }]);
 
-app.config(['$stateProvider', '$urlRouterProvider',
-    function ($stateProvider, $urlRouterProvider) {
+app.config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider',
+    function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+        $ionicConfigProvider.backButton.previousTitleText(false);
         $stateProvider
 
            .state('loading', {

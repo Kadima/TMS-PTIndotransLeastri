@@ -33,7 +33,7 @@ appControllers.controller('LoginCtrl',
                 }
             });
             if ($stateParams.CheckUpdate === 'Y') {
-                var url = strWebServiceURL + strBaseUrl + '/update.json';
+                var url = strWebSiteURL + '/update.json';
                 $http.get(url)
                     .success(function (res) {
                         var serverAppVersion = res.version;
@@ -130,7 +130,13 @@ appControllers.controller('SettingCtrl',
                         strBaseUrl = "/" + strBaseUrl;
                     }
                 } else { $scope.Setting.BaseUrl = strBaseUrl }
-                var data = 'BaseUrl=' + $scope.Setting.BaseUrl + '##WebServiceURL=' + $scope.Setting.WebServiceURL;
+                if ($scope.Setting.WebSiteUrl.length > 0) {
+                    strWebSiteURL = $scope.Setting.WebSiteUrl;
+                    if (strWebSiteURL.length > 0) {
+                        strWebSiteURL = "http://" + strWebSiteURL;
+                    }
+                } else { $scope.Setting.WebSiteUrl = strWebSiteURL }
+                var data = 'BaseUrl=' + $scope.Setting.BaseUrl + '##WebServiceURL=' + $scope.Setting.WebServiceURL + '##WebSiteURL=' + strWebSiteURL;
                 var path = cordova.file.externalRootDirectory;
                 var directory = "TmsApp";
                 var file = directory + "/Config.txt";
