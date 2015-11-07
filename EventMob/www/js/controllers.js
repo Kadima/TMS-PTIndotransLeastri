@@ -1,4 +1,4 @@
-angular.module('EventMob.controllers', [
+var appControllers = angular.module('EventMob.controllers', [
     'ionic',
     'ngCordova.plugins.dialogs',
     'ngCordova.plugins.toast',
@@ -10,17 +10,17 @@ angular.module('EventMob.controllers', [
     'ngMessages',
     'EventMob.directives',
     'EventMob.services'
-])
+]);
 
-    .controller('LoadingCtrl',
+appControllers.controller('LoadingCtrl',
         ['$state', '$timeout',
         function ($state, $timeout) {
             $timeout(function () {
                 $state.go('login', { 'CheckUpdate': 'Y' }, { reload: true });
             }, 2500);
-        }])
+        }]);
 
-    .controller('LoginCtrl',
+appControllers.controller('LoginCtrl',
         ['$scope', '$http', '$state', '$stateParams', '$ionicPopup', '$timeout', '$ionicLoading', '$cordovaToast', '$cordovaAppVersion', 'JsonServiceClient', 
         function ($scope, $http, $state, $stateParams, $ionicPopup, $timeout, $ionicLoading, $cordovaToast, $cordovaAppVersion, JsonServiceClient) {
             $scope.logininfo = {};
@@ -106,9 +106,9 @@ angular.module('EventMob.controllers', [
                 };
                 JsonServiceClient.postToService(strUri, jsonData, onSuccess, onError);
             };
-        }])
+        }]);
 
-    .controller('SettingCtrl',
+appControllers.controller('SettingCtrl',
         ['$scope', '$state', '$timeout', '$ionicLoading', '$ionicPopup', '$cordovaToast', '$cordovaFile',
         function ($scope, $state, $timeout, $ionicLoading, $ionicPopup, $cordovaToast, $cordovaFile) {
             $scope.Setting = {};
@@ -158,9 +158,9 @@ angular.module('EventMob.controllers', [
                         $cordovaToast.showShortBottom(error);
                     });
             };
-        }])
+        }]);
 
-    .controller('UpdateCtrl',
+appControllers.controller('UpdateCtrl',
         ['$scope', '$stateParams', '$state', '$timeout', '$ionicLoading', '$cordovaToast', '$cordovaFile', '$cordovaFileTransfer', '$cordovaFileOpener2',
         function ($scope, $stateParams, $state, $timeout, $ionicLoading, $cordovaToast, $cordovaFile, $cordovaFileTransfer, $cordovaFileOpener2) {
             $scope.strVersion = $stateParams.Version;
@@ -212,9 +212,9 @@ angular.module('EventMob.controllers', [
                     $state.go('login', { 'CheckUpdate': 'N' }, { reload: true });
                 }
             };
-        }])
+        }]);
 
-    .controller('MainCtrl',
+appControllers.controller('MainCtrl',
         ['$scope', '$http', '$state', '$stateParams', '$ionicPopup', '$timeout', 'JsonServiceClient',
         function ($scope, $http, $state, $stateParams, $ionicPopup, $timeout, JsonServiceClient) {
             var strDriverName = sessionStorage.getItem("strDriverName");
@@ -238,9 +238,9 @@ angular.module('EventMob.controllers', [
             var onError = function () {
             };
             JsonServiceClient.getFromService(strUri + strPhoneNumber, onSuccess, onError);
-        }])
+        }]);
 
-    .controller('ListCtrl',
+appControllers.controller('ListCtrl',
         ['$scope', '$state', '$stateParams', '$http', '$ionicPopup', '$timeout', '$ionicLoading', '$cordovaDialogs', 'JsonServiceClient',
         function ($scope, $state, $stateParams, $http, $ionicPopup, $timeout, $ionicLoading, $cordovaDialogs, JsonServiceClient) {
             $scope.shouldShowDelete = false;
@@ -321,9 +321,9 @@ angular.module('EventMob.controllers', [
                 }
             };
             getTasks();
-        }])
+        }]);
 
-    .controller('DetailCtrl',
+appControllers.controller('DetailCtrl',
         ['$scope', '$stateParams', '$state', '$http', '$timeout', '$ionicLoading', '$ionicPopup', 'JsonServiceClient',
         function ($scope, $stateParams, $state, $http, $timeout, $ionicLoading, $ionicPopup, JsonServiceClient) {
             $scope.strContainerNo = $stateParams.ContainerNo;
@@ -374,4 +374,4 @@ angular.module('EventMob.controllers', [
                 };
                 JsonServiceClient.postToService(strUri, jsonData, onSuccess, onError);
             };
-        }])
+        }]);

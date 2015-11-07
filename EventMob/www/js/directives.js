@@ -1,5 +1,5 @@
-angular.module('EventMob.directives', [])
-.directive('dateFormat', ['$filter', function ($filter) {
+var appDirectives = angular.module('EventMob.directives', []);
+appDirectives.directive('dateFormat', ['$filter', function ($filter) {
     var dateFilter = $filter('date');
     return {
         require: 'ngModel',
