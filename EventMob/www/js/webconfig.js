@@ -1,7 +1,7 @@
 /* SysFreight Server */
 var strBaseUrl = "TmsWS";
 var strWebServiceURL = "www.sysfreight.net:8081";
-var strWebSiteURL = "www.sysfreight.net:8081/mobileapp";
+var strWebSiteURL = "www.sysfreight.net:8081/tmsapp";
 var strSecretKey = "9CBA0A78-7D1D-49D3-BA71-C72E93F9E48F";
 
 function HashMap() {
