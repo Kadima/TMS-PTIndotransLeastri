@@ -23,29 +23,76 @@ appControllers.controller('LoadingCtrl',
 appControllers.controller('LoginCtrl',
         ['$scope', '$http', '$state', '$stateParams', '$ionicPopup', '$timeout', '$ionicLoading', '$cordovaToast', '$cordovaAppVersion', 'JsonServiceClient', 
         function ($scope, $http, $state, $stateParams, $ionicPopup, $timeout, $ionicLoading, $cordovaToast, $cordovaAppVersion, JsonServiceClient) {
-            $scope.logininfo = {};
-            if (undefined == $scope.logininfo.strPhoneNumber) {
-                $scope.logininfo.strPhoneNumber = "";
-            }
-            $('#iPhoneNumber').on('keydown', function (e) {
-                if (e.which === 9 || e.which === 13) {
-                    $scope.login();
-                }
-            });
-            if ($stateParams.CheckUpdate === 'Y') {
-                var url = strWebSiteURL + '/update.json';
-                $http.get(url)
-                    .success(function (res) {
-                        var serverAppVersion = res.version;
-                        $cordovaAppVersion.getVersionNumber().then(function (version) {
-                            if (version != serverAppVersion) {
-                                $state.go('update', { 'Version': serverAppVersion });
+            $scope.logininfo = {
+                strPhoneNumber: '',
+                strRole: '',
+                CurRole: '1',
+                NewRole: '1'
+            };
+            $scope.roles = [
+                { text: "Driver/Ops", value: "1" },
+                { text: "Customer", value: "2" },
+                { text: "Transporter", value: "3" }
+            ];
+            $scope.funcChangeRole = function () {
+                var myPopup = $ionicPopup.show({
+                    template: '<ion-radio ng-repeat="role in roles" ng-value="role.value" ng-model="logininfo.NewRole">{{ role.text }}</ion-radio>',
+                    title: 'Select Login Role',
+                    scope: $scope,
+                    buttons: [
+                        {
+                            text: 'Cancel',
+                            onTap: function (e) {
+                                $scope.logininfo.NewRole = $scope.logininfo.CurRole;
                             }
-                        });
-                    })
-                    .error(function (res) {});
-            }
-            $scope.checkUpdate = function () {
+                        },
+                        {
+                            text: 'Save',
+                            type: 'button-positive',
+                            onTap: function (e) {
+                                for (var r in $scope.roles) {
+                                    if ($scope.logininfo.NewRole === $scope.roles[r].value) {
+                                        $scope.logininfo.CurRole = $scope.logininfo.NewRole;
+                                        $scope.logininfo.strRole = $scope.roles[r].text;
+                                        if (window.cordova) {
+                                            var data = 'BaseUrl=' + strBaseUrl + '##WebServiceURL=' + strWebServiceURL + '##WebSiteURL=' + strWebSiteURL + '##LoginRole=' + $scope.logininfo.strRole;
+                                            var path = cordova.file.externalRootDirectory;
+                                            var directory = "TmsApp";
+                                            var file = directory + "/Config.txt";
+                                            $cordovaFile.writeFile(path, file, data, true)
+                                                .then(function (success) {
+                                                    //
+                                                }, function (error) {
+                                                    $cordovaToast.showShortBottom(error);
+                                                });
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                });
+            };
+            $scope.funcRoleJuage = function (roleType) {
+                if (roleType === 1) {
+                    if ($scope.logininfo.strRole === 'Driver/Ops') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+                else if (roleType === 2) {
+                    if ($scope.logininfo.strRole === 'Customer') {
+                        return true;
+                    } 
+                    else if ($scope.logininfo.strRole === 'Transporter') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            };
+            $scope.funcCheckUpdate = function () {
                 var url = strWebServiceURL + strBaseUrl + '/update.json';
                 $http.get(url)
                     .success(function (res) {
@@ -74,13 +121,14 @@ appControllers.controller('LoginCtrl',
                         }, 2500);
                     });
             };
-            $scope.setConf = function () {
+            $scope.funcSetConf = function () {
                 $state.go('setting', {}, { reload: true });
             };
-            $scope.login = function () {
+            $scope.funcLogin = function () {
                 if (window.cordova && window.cordova.plugins.Keyboard) {
                     cordova.plugins.Keyboard.close();
                 }
+                //Todo
                 if ($scope.logininfo.strPhoneNumber == "") {
                     var alertPopup = $ionicPopup.alert({
                         title: 'Please Enter Phone Number.',
@@ -106,6 +154,43 @@ appControllers.controller('LoginCtrl',
                 };
                 JsonServiceClient.postToService(strUri, jsonData, onSuccess, onError);
             };
+            $('#iPhoneNumber').on('keydown', function (e) {
+                if (e.which === 9 || e.which === 13) {
+                    $scope.login();
+                }
+            });
+            if ($stateParams.CheckUpdate === 'Y') {
+                var url = strWebSiteURL + '/update.json';
+                $http.get(url)
+                    .success(function (res) {
+                        var serverAppVersion = res.version;
+                        $cordovaAppVersion.getVersionNumber().then(function (version) {
+                            if (version != serverAppVersion) {
+                                $state.go('update', { 'Version': serverAppVersion });
+                            }
+                        });
+                    })
+                    .error(function (res) { });
+            }
+            if (window.cordova) {
+                $cordovaFile.checkFile(path, file)
+                    .then(function (success) {
+                        $cordovaFile.readAsText(path, file)
+                            .then(function (success) {
+                                var arConf = success.split("##");
+                                var arRole = arConf[3].split("=");
+                                if (arRole[1].length > 0) {
+                                    $scope.logininfo.strRole = arRole[1];
+                                }
+                            }, function (error) {
+                                $cordovaToast.showShortBottom(error);
+                            });
+                    }, function (error) {
+                        // If file not exists
+                    });
+            } else {
+                $scope.logininfo.strRole = 'Driver/Ops';
+            }
         }]);
 
 appControllers.controller('SettingCtrl',
@@ -114,6 +199,7 @@ appControllers.controller('SettingCtrl',
             $scope.Setting = {};
             $scope.Setting.WebServiceURL = strWebServiceURL.replace('http://', '');
             $scope.Setting.BaseUrl = strBaseUrl.replace('/', '');
+            $scope.Setting.WebSiteUrl = strWebSiteURL.replace('http://', '');
             $scope.returnLogin = function () {
                 $state.go('login', { 'CheckUpdate': 'Y' }, { reload: true });
             };

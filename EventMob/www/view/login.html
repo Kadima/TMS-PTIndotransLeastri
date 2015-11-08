@@ -2,15 +2,31 @@
 	<ion-side-menus enable-menu-with-back-views="true">
 		<ion-side-menu-content>
 			<div style="text-align:center; margin-left:auto; margin-right:auto;">
-				<img src="./img/login.png"/ width="60%" height="60%">
+				<img src="./img/login.png" width="60%" height="60%">
 			</div>
 			<div class="list list-inset">
-				<label class="item item-input">
+                <div class="item item-divider">
+                    <span ng-bind="logininfo.strRole"></span>
+                </div>
+				<label class="item item-input" ng-show="funcRoleJuage(1)">
 					<i class="icon ion-android-call placeholder-icon"></i>&nbsp;&nbsp;
 					<input type="tel" id="iPhoneNumber" placeholder="Phone Number" required ng-model="logininfo.strPhoneNumber">
 				</label>
-				<button class="button button-block button-positive" ng-click="login()">SIGN IN</button>
+                <label class="item item-input" ng-show="funcRoleJuage(2)">
+                    <i class="icon ion-android-person placeholder-icon"></i>&nbsp;&nbsp;
+                    <input type="tel" id="iUserID" placeholder="User ID" required ng-model="logininfo.strUserID">
+                </label>
+                <label class="item item-input" ng-show="funcRoleJuage(2)">
+                    <i class="icon ion-android-folder-open placeholder-icon"></i>&nbsp;&nbsp;
+                    <input type="tel" id="iEventJobNo" placeholder="Event Job No" required ng-model="logininfo.strEventJobNo">
+                </label>
+				<button class="button button-block button-positive" ng-click="funcLogin()">SIGN IN</button>
 			</div>
+            <div class="list list-inset">
+                <button class="button button-small button-clear button-calm" ng-click="funcChangeRole()">
+                    <i class="icon ion-help-circled"></i>&nbsp;&nbsp;Change Role
+                </button>
+            </div>
 		</ion-side-menu-content>
 		<ion-side-menu side="left">
 			<ion-header-bar align-title="center" class="bar-positive">
@@ -21,10 +37,10 @@
 			</ion-header-bar>
 			<ion-content class="has-header">  
 				<ion-list>  
-					<ion-item nav-clear ng-click="setConf()">  
+					<ion-item nav-clear ng-click="funcSetConf()">  
 						<i class="icon ion-android-settings"></i> Server-Side Configuration
 					</ion-item>
-                    <ion-item nav-clear ng-click="checkUpdate()">
+                    <ion-item nav-clear ng-click="funcCheckUpdate()">
                         <i class="icon ion-arrow-up-c"></i> Check New Version
                     </ion-item>  
 				</ion-list>  
