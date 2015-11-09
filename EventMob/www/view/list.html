@@ -1,6 +1,6 @@
 <ion-view title="List">
 	<ion-header-bar class="bar-positive">
-		<button class="button button-icon icon ion-navicon" ng-click="returnMain()"></button>
+		<button class="button button-icon icon ion-navicon" ng-click="returnMain()" ng-show="funcShowRole(1)"></button>
 		<div class="h1 title">TASKS / <span ng-bind="JobNo"><span></div>
 	</ion-header-bar>
 	<ion-content>
@@ -12,7 +12,7 @@
 			    <p style="font-size:0.8em;" ng-show="showContainerNo(task)">Container No&nbsp;&nbsp;:&nbsp;&nbsp;<span ng-bind="task.ContainerNo" style="font-size:1.3em;"></span></p>
                 <p style="font-size:0.8em;" ng-show="funcShowRole(3)">Vehicle No&nbsp;&nbsp;:&nbsp;&nbsp;<span ng-bind="task.VehicleNo" style="font-size:1.3em;"></span></p>
                 <p style="font-size:0.8em;" ng-show="funcShowRole(3)">Driver Name&nbsp;&nbsp;:&nbsp;&nbsp;<span ng-bind="task.DriverName" style="font-size:1.3em;"></span></p>
-                <p style="font-size:0.8em;" ng-show="funcShowRole(3)">Truck <span ng-bind="funcShowTruckType(task)"></span> Date&nbsp;&nbsp;:&nbsp;&nbsp;<span ng-bind="task.TruckDateTime" style="font-size:1.3em;"></span></p>
+                <p style="font-size:0.8em;" ng-show="funcShowRole(3)">Truck <span ng-bind="funcShowTruckType(task)"></span> Date&nbsp;&nbsp;:&nbsp;&nbsp;<span ng-bind="funcShowTruckDatetime(task.TruckDateTime)" style="font-size:1.3em;"></span></p>
 			    <i class="icon ion-android-arrow-dropleft"></i>
                 <ion-option-button class="button-assertive" ng-click="slideDone(task,'N')">
                     Remark

@@ -140,49 +140,42 @@ app.config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider',
     function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
         $ionicConfigProvider.backButton.previousTitleText(false);
         $stateProvider
-
            .state('loading', {
                url: '/loading',
                cache: 'false',
                templateUrl: 'view/loading.html',
                controller: 'LoadingCtrl'
            })
-
           .state('login', {
               url: '/login/:CheckUpdate',
               cache: 'false',
               templateUrl: 'view/login.html',
               controller: 'LoginCtrl'
           })
-
           .state('setting', {
               url: '/setting',
               cache: 'false',
               templateUrl: 'view/setting.html',
               controller: 'SettingCtrl'
           })
-
           .state('update', {
               url: '/update/:Version',
               cache: 'false',
               templateUrl: 'view/update.html',
               controller: 'UpdateCtrl'
           })
-
           .state('main', {
               url: "/main/:blnForcedReturn",
               cache: 'false',
               templateUrl: "view/main.html",
               controller: 'MainCtrl'
           })
-
           .state('list', {
               url: '/list/:JobNo',
               cache: 'false',
               templateUrl: 'view/list.html',
               controller: 'ListCtrl'
           })
-
           .state('detail', {
               url: '/detail/:ContainerNo/:JobNo/:JobLineItemNo/:LineItemNo/:Description/:Remark/:DoneFlag',
               cache: 'false',

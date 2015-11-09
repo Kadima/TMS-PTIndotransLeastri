@@ -428,6 +428,15 @@ appControllers.controller('ListCtrl',
                     return '';
                 }
             };
+            $scope.funcShowTruckDatetime = function (utc) {
+                var utcDate = Number(utc.substring(utc.indexOf('(') + 1, utc.lastIndexOf('-')));
+                var newDate = new Date(utcDate);
+                if (newDate.getUTCFullYear() < 2166 && newDate.getUTCFullYear() > 1899) {
+                    return newDate.Format('yyyy-MM-dd hh:mm');
+                } else {
+                    return '';
+                }
+            };
             var strUri = '';
             var onSuccess = null;
             var onError = function () {
