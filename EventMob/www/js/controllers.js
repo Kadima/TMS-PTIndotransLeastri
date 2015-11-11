@@ -369,6 +369,7 @@ appControllers.controller('MainCtrl',
                 $ionicLoading.show();
                 var strUri = '/api/event/action/list/jobno/';
                 var onSuccess = function (response) {
+                    $ionicLoading.hide();
                         if (response.data.results.length === 1 && $stateParams.blnForcedReturn === 'N') {
                             $state.go('list', { 'JobNo': response.data.results[0].JobNo }, { reload: true });
                         }
