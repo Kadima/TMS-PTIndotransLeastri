@@ -21,8 +21,11 @@ appControllers.controller('LoadingCtrl',
         }]);
 
 appControllers.controller('LoginCtrl',
-        ['$scope', '$http', '$state', '$stateParams', '$ionicPopup', '$timeout', '$ionicLoading', '$cordovaToast', '$cordovaAppVersion', 'JsonServiceClient', 
-        function ($scope, $http, $state, $stateParams, $ionicPopup, $timeout, $ionicLoading, $cordovaToast, $cordovaAppVersion, JsonServiceClient) {
+        ['$scope', '$http', '$state', '$stateParams', '$ionicPopup', '$timeout', '$ionicLoading', '$cordovaToast', '$cordovaFile', '$cordovaAppVersion', 'JsonServiceClient', 
+        function ($scope, $http, $state, $stateParams, $ionicPopup, $timeout, $ionicLoading, $cordovaToast, $cordovaFile, $cordovaAppVersion, JsonServiceClient) {
+            var path = '';
+            var directory = 'TmsApp';
+            var file = directory + '/Config.txt';
             $scope.logininfo = {
                 strPhoneNumber: '',
                 strCustomerCode: '',
@@ -57,10 +60,8 @@ appControllers.controller('LoginCtrl',
                                         $scope.logininfo.CurRole = $scope.logininfo.NewRole;
                                         $scope.logininfo.strRole = $scope.roles[r].text;
                                         if (window.cordova) {
-                                            var data = 'BaseUrl=' + strBaseUrl + '##WebServiceURL=' + strWebServiceURL + '##WebSiteURL=' + strWebSiteURL + '##LoginRole=' + $scope.logininfo.strRole;
-                                            var path = cordova.file.externalRootDirectory;
-                                            var directory = "TmsApp";
-                                            var file = directory + "/Config.txt";
+                                            path = cordova.file.externalRootDirectory;
+                                            var data = 'BaseUrl=' + strBaseUrl.replace('/', '') + '##WebServiceURL=' + strWebServiceURL.replace('http://', '') + '##WebSiteURL=' + strWebSiteURL.replace('http://', '') + '##LoginRole=' + $scope.logininfo.strRole;
                                             $cordovaFile.writeFile(path, file, data, true)
                                                 .then(function (success) {
                                                     //
@@ -95,7 +96,7 @@ appControllers.controller('LoginCtrl',
                 }
             };
             $scope.funcCheckUpdate = function () {
-                var url = strWebServiceURL + strBaseUrl + '/update.json';
+                var url = strWebSiteURL + '/update.json';
                 $http.get(url)
                     .success(function (res) {
                         var serverAppVersion = res.version;
@@ -193,7 +194,7 @@ appControllers.controller('LoginCtrl',
                             sessionStorage.setItem('strCustomerCode', $scope.logininfo.strCustomerCode);
                             sessionStorage.setItem('strJobNo', $scope.logininfo.strJobNo);
                             sessionStorage.setItem('strRole', $scope.logininfo.strRole);                            
-                            $state.go('list', { 'JobNo': $scope.logininfo.strJobNo }, { reload: true });
+                            $state.go('listDirect', { 'JobNo': $scope.logininfo.strJobNo }, { reload: true });
                         };
                     }                   
                 }
@@ -218,20 +219,32 @@ appControllers.controller('LoginCtrl',
                     .error(function (res) { });
             }
             if (window.cordova) {
+                path = cordova.file.externalRootDirectory;
                 $cordovaFile.checkFile(path, file)
                     .then(function (success) {
                         $cordovaFile.readAsText(path, file)
                             .then(function (success) {
                                 var arConf = success.split("##");
-                                var arRole = arConf[3].split("=");
-                                if (arRole[1].length > 0) {
-                                    $scope.logininfo.strRole = arRole[1];
+                                if (arConf.length > 3) {
+                                    var arRole = arConf[3].split("=");
+                                    if (arRole[1].length > 0) {
+                                        $scope.logininfo.strRole = arRole[1];
+                                        if ($scope.logininfo.strRole === 'Customer') {
+                                            $scope.logininfo.CurRole = '2';
+                                            $scope.logininfo.NewRole = $scope.logininfo.CurRole;
+                                        } else if ($scope.logininfo.strRole === 'Transporter') {
+                                            $scope.logininfo.CurRole = '3';
+                                            $scope.logininfo.NewRole = $scope.logininfo.CurRole;
+                                        }
+                                    }
+                                } else {
+                                    $scope.logininfo.strRole = "Driver/Ops";
                                 }
                             }, function (error) {
                                 $cordovaToast.showShortBottom(error);
                             });
                     }, function (error) {
-                        // If file not exists
+                        $scope.logininfo.strRole = "Driver/Ops";
                     });
             } else {
                 $scope.logininfo.strRole = 'Driver/Ops';
@@ -354,6 +367,9 @@ appControllers.controller('UpdateCtrl',
 appControllers.controller('MainCtrl',
         ['$scope', '$http', '$state', '$stateParams', '$ionicLoading', '$ionicPopup', '$timeout', 'JsonServiceClient',
         function ($scope, $http, $state, $stateParams, $ionicLoading, $ionicPopup, $timeout, JsonServiceClient) {
+            $scope.returnLogin = function () {
+                $state.go('login', { 'CheckUpdate': 'N' }, { reload: true });
+            };
             var strDriverName = sessionStorage.getItem("strDriverName").toString();
             var strPhoneNumber = sessionStorage.getItem("strPhoneNumber").toString();
             if (strDriverName.length > 0) {
@@ -399,7 +415,11 @@ appControllers.controller('ListCtrl',
                 $scope.listCanSwipe = false;
             }
             $scope.returnMain = function () {
-                $state.go('main', { 'blnForcedReturn': 'Y' }, { reload: true });
+                if (strRole === 'Driver/Ops') {
+                    $state.go('main', { 'blnForcedReturn': 'Y' }, { reload: true });
+                } else {
+                    $state.go('login', { 'CheckUpdate': 'N' }, { reload: true });
+                }
             };
             $scope.funcShowRole = function (roleType) {
                 if (roleType === 1) {
@@ -503,12 +523,10 @@ appControllers.controller('ListCtrl',
                 $scope.$apply();
             };
             $scope.showContainerNo = function (task) {
-                var to = typeof (task.ContainerNo);
-                var strUndefined = 'undefined';
-                if (to === strUndefined) {
+                if (typeof (task.ContainerNo) === 'undefined') {
                     return false;
                 } else {
-                    if (to.length > 0) {
+                    if (task.ContainerNo.length > 0) {
                         return true;
                     } else {
                         return false;

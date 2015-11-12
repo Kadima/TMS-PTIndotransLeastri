@@ -7,7 +7,6 @@ var app = angular.module('EventMob', [
     
 app.run(['$ionicPlatform', '$rootScope', '$state', '$location', '$timeout', '$ionicPopup', '$ionicHistory', '$ionicLoading', '$cordovaToast', '$cordovaFile',
     function ($ionicPlatform, $rootScope, $state, $location, $timeout, $ionicPopup, $ionicHistory, $ionicLoading, $cordovaToast, $cordovaFile) {
-
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -102,7 +101,6 @@ app.run(['$ionicPlatform', '$rootScope', '$state', '$location', '$timeout', '$io
                 StatusBar.styleDefault();
             }
         });
-
         $ionicPlatform.registerBackButtonAction(function (e) {
             e.preventDefault();
             // Is there a page to go back to?  $state.include ??
@@ -118,7 +116,7 @@ app.run(['$ionicPlatform', '$rootScope', '$state', '$location', '$timeout', '$io
                 }
             } else if ($state.includes('setting')) {
                 $state.go('login', { 'CheckUpdate': 'Y' }, { reload: true });
-            } else if ($state.includes('update')) {
+            } else if ($state.includes('update') || $state.includes('listDirect')) {
                 $state.go('login', { 'CheckUpdate': 'N' }, { reload: true });
             } else if ($state.includes('list')) {
                 $state.go('main', { 'blnForcedReturn': 'Y' }, { reload: true });
@@ -140,48 +138,54 @@ app.config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider',
     function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
         $ionicConfigProvider.backButton.previousTitleText(false);
         $stateProvider
-           .state('loading', {
-               url: '/loading',
-               cache: 'false',
-               templateUrl: 'view/loading.html',
-               controller: 'LoadingCtrl'
-           })
-          .state('login', {
-              url: '/login/:CheckUpdate',
-              cache: 'false',
-              templateUrl: 'view/login.html',
-              controller: 'LoginCtrl'
-          })
-          .state('setting', {
-              url: '/setting',
-              cache: 'false',
-              templateUrl: 'view/setting.html',
-              controller: 'SettingCtrl'
-          })
-          .state('update', {
-              url: '/update/:Version',
-              cache: 'false',
-              templateUrl: 'view/update.html',
-              controller: 'UpdateCtrl'
-          })
-          .state('main', {
-              url: "/main/:blnForcedReturn",
-              cache: 'false',
-              templateUrl: "view/main.html",
-              controller: 'MainCtrl'
-          })
-          .state('list', {
-              url: '/list/:JobNo',
-              cache: 'false',
-              templateUrl: 'view/list.html',
-              controller: 'ListCtrl'
-          })
-          .state('detail', {
-              url: '/detail/:ContainerNo/:JobNo/:JobLineItemNo/:LineItemNo/:Description/:Remark/:DoneFlag',
-              cache: 'false',
-              templateUrl: 'view/detail.html',
-              controller: 'DetailCtrl'
-          });
+            .state('loading', {
+                url: '/loading',
+                cache: 'false',
+                templateUrl: 'view/loading.html',
+                controller: 'LoadingCtrl'
+            })
+            .state('login', {
+                url: '/login/:CheckUpdate',
+                cache: 'false',
+                templateUrl: 'view/login.html',
+                controller: 'LoginCtrl'
+            })
+            .state('setting', {
+                url: '/setting',
+                //cache: 'false',
+                templateUrl: 'view/setting.html',
+                controller: 'SettingCtrl'
+            })
+            .state('update', {
+                url: '/update/:Version',
+                cache: 'false',
+                templateUrl: 'view/update.html',
+                controller: 'UpdateCtrl'
+            })
+            .state('main', {
+                url: "/main/:blnForcedReturn",
+                //cache: 'false',
+                templateUrl: "view/main.html",
+                controller: 'MainCtrl'
+            })
+            .state('list', {
+                url: '/list/:JobNo',
+                //cache: 'false',
+                templateUrl: 'view/list.html',
+                controller: 'ListCtrl'
+            })
+            .state('listDirect', {
+                url: '/list/:JobNo',
+                //cache: 'false',
+                templateUrl: 'view/list.html',
+                controller: 'ListCtrl'
+            })
+            .state('detail', {
+                url: '/detail/:ContainerNo/:JobNo/:JobLineItemNo/:LineItemNo/:Description/:Remark/:DoneFlag',
+                //cache: 'false',
+                templateUrl: 'view/detail.html',
+                controller: 'DetailCtrl'
+            });
         $urlRouterProvider.otherwise('/loading');
     }]);
 
