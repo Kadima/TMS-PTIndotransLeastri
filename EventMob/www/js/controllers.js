@@ -386,14 +386,18 @@ appControllers.controller('MainCtrl',
 appControllers.controller('ListCtrl',
         ['$scope', '$state', '$stateParams', '$http', '$ionicPopup', '$timeout', '$ionicLoading', '$cordovaDialogs', 'JsonServiceClient',
         function ($scope, $state, $stateParams, $http, $ionicPopup, $timeout, $ionicLoading, $cordovaDialogs, JsonServiceClient) {       
-            $scope.shouldShowDelete = false;
-            $scope.listCanSwipe = true;
             $scope.JobNo = $stateParams.JobNo;
             var strJobNo = $scope.JobNo;
             var strPhoneNumber = sessionStorage.getItem("strPhoneNumber").toString();
             var strCustomerCode = sessionStorage.getItem("strCustomerCode").toString();
             //var strJobNo = sessionStorage.getItem("strJobNo").toString();
             var strRole = sessionStorage.getItem("strRole").toString();
+            $scope.shouldShowDelete = false;
+            if (strRole === 'Driver/Ops') {
+                $scope.listCanSwipe = true;
+            } else {
+                $scope.listCanSwipe = false;
+            }
             $scope.returnMain = function () {
                 $state.go('main', { 'blnForcedReturn': 'Y' }, { reload: true });
             };
@@ -429,7 +433,17 @@ appControllers.controller('ListCtrl',
                     return '';
                 }
             };
-            $scope.funcShowTruckDatetime = function (utc) {
+            $scope.funcShowLoadType = function (task) {
+                if (task.JobType === 'IM') {
+                    return 'Unload';
+                } else if (task.JobType === 'EX' || task.JobType === 'TP') {
+                    return 'Load';
+                } else {
+                    return '';
+                }
+            };
+            $scope.funcShowDatetime = function (utc) {
+                if (typeof(utc) === 'undefined') return ''
                 var utcDate = Number(utc.substring(utc.indexOf('(') + 1, utc.lastIndexOf('-')));
                 var newDate = new Date(utcDate);
                 if (newDate.getUTCFullYear() < 2166 && newDate.getUTCFullYear() > 1899) {
@@ -445,13 +459,6 @@ appControllers.controller('ListCtrl',
             };
             var onFinally = function () {
                 $scope.$broadcast('scroll.refreshComplete');
-            };
-            var getTasks = function () {
-                $ionicLoading.show();
-                getData();
-            };
-            var getData = function () {
-                JsonServiceClient.getFromService(strUri, onSuccess, onError);
             };
             if (strCustomerCode.length > 0) {
                 strUri = "/api/event/action/list/jmjm6/" + strJobNo;
@@ -484,6 +491,13 @@ appControllers.controller('ListCtrl',
                     }
                 };
             }
+            var getTasks = function () {
+                $ionicLoading.show();
+                getData();
+            };
+            var getData = function () {
+                JsonServiceClient.getFromService(strUri, onSuccess, onError);
+            };
             $scope.doRefresh = function () {
                 JsonServiceClient.getFromService(strUri, onSuccess, onError, onFinally);
                 $scope.$apply();

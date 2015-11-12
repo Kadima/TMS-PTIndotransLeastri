@@ -8,11 +8,37 @@
 		</ion-refresher>
 		<ion-list show-delete="shouldShowDelete" can-swipe="listCanSwipe">
 			<ion-item ng-repeat="task in tasks" class="item-remove-animate item-icon-right" >
-			    <p style="font-size:0.8em;" ng-show="funcShowRole(1)">Event Name&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;<span ng-bind="task.ItemName" style="font-size:1.3em;"></span></p>
-			    <p style="font-size:0.8em;" ng-show="showContainerNo(task)">Container No&nbsp;&nbsp;:&nbsp;&nbsp;<span ng-bind="task.ContainerNo" style="font-size:1.3em;"></span></p>
-                <p style="font-size:0.8em;" ng-show="funcShowRole(3)">Vehicle No&nbsp;&nbsp;:&nbsp;&nbsp;<span ng-bind="task.VehicleNo" style="font-size:1.3em;"></span></p>
+                <div class="row" style="padding: 0px;font-size:0.8em;" ng-show="funcShowRole(1)">
+                    <div class="col col-50">Event Name</div>
+                    <div class="col col-50"><span ng-bind="task.ItemName" style="font-size:1.3em;"></span></div>
+                </div>
+                <div class="row" style="padding: 0px;font-size:0.8em;" ng-show="showContainerNo(task)">
+                    <div class="col col-50">Container No</div>
+                    <div class="col col-50"><span ng-bind="task.ContainerNo" style="font-size:1.3em;"></span></div>
+                </div>
+                <div class="row" style="padding: 0px;font-size:0.8em;" ng-show="funcShowRole(2)">
+                    <div class="col col-50">Receive Date</div>
+                    <div class="col col-50"><span ng-bind="funcShowDatetime(task.RecevieDateTime)" style="font-size:1.3em;"></span></div>
+                </div>
+                <div class="row" style="padding: 0px;font-size:0.8em;" ng-show="funcShowRole(2)">
+                    <div class="col col-50">Condition</div>
+                    <div class="col col-50"><span ng-bind="task.CargoStatusCode" style="font-size:1.3em;"></span></div>
+                </div>
+                <div class="row" style="padding: 0px;font-size:0.8em;" ng-show="funcShowRole(2)">
+                    <div class="col col-50">Remark</div>
+                    <div class="col col-50"><span ng-bind="task.Remark" style="font-size:1.3em;"></span></div>
+                </div>
+                <div class="row" style="padding: 0px;font-size:0.8em;" ng-show="funcShowRole(2)">
+                    <div class="col col-50">Container Ready Date</div>
+                    <div class="col col-50"><span ng-bind="funcShowDatetime(task.ReadyDateTime)" style="font-size:1.3em;"></span></div>
+                </div>
+                <div class="row" style="padding: 0px;font-size:0.8em;" ng-show="funcShowRole(2)">
+                    <div class="col col-50"><span ng-bind="funcShowLoadType(task)"></span> Date</div>
+                    <div class="col col-50"><span ng-bind="funcShowDatetime(task.UnLoadDateTime)" style="font-size:1.3em;"></span></div>
+                </div>
+			    <p style="font-size:0.8em;" ng-show="funcShowRole(3)">Vehicle No&nbsp;&nbsp;:&nbsp;&nbsp;<span ng-bind="task.VehicleNo" style="font-size:1.3em;"></span></p>
                 <p style="font-size:0.8em;" ng-show="funcShowRole(3)">Driver Name&nbsp;&nbsp;:&nbsp;&nbsp;<span ng-bind="task.DriverName" style="font-size:1.3em;"></span></p>
-                <p style="font-size:0.8em;" ng-show="funcShowRole(3)">Truck <span ng-bind="funcShowTruckType(task)"></span> Date&nbsp;&nbsp;:&nbsp;&nbsp;<span ng-bind="funcShowTruckDatetime(task.TruckDateTime)" style="font-size:1.3em;"></span></p>
+                <p style="font-size:0.8em;" ng-show="funcShowRole(3)">Truck <span ng-bind="funcShowTruckType(task)"></span> Date&nbsp;&nbsp;:&nbsp;&nbsp;<span ng-bind="funcShowDatetime(task.TruckDateTime)" style="font-size:1.3em;"></span></p>
 			    <i class="icon ion-android-arrow-dropleft"></i>
                 <ion-option-button class="button-assertive" ng-click="slideDone(task,'N')">
                     Remark
