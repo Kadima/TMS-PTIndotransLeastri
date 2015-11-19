@@ -164,25 +164,25 @@ app.config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider',
             })
             .state('main', {
                 url: "/main/:blnForcedReturn",
-                //cache: 'false',
+                cache: 'false',
                 templateUrl: "view/main.html",
                 controller: 'MainCtrl'
             })
             .state('list', {
                 url: '/list/:JobNo',
-                //cache: 'false',
+                cache: 'false',
                 templateUrl: 'view/list.html',
                 controller: 'ListCtrl'
             })
             .state('listDirect', {
                 url: '/list/:JobNo',
-                //cache: 'false',
+                cache: 'false',
                 templateUrl: 'view/list.html',
                 controller: 'ListCtrl'
             })
             .state('detail', {
                 url: '/detail/:ContainerNo/:JobNo/:JobLineItemNo/:LineItemNo/:Description/:Remark/:DoneFlag',
-                //cache: 'false',
+                cache: 'false',
                 templateUrl: 'view/detail.html',
                 controller: 'DetailCtrl'
             });

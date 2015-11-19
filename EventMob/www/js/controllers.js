@@ -202,7 +202,7 @@ appControllers.controller('LoginCtrl',
             };
             $('#iPhoneNumber').on('keydown', function (e) {
                 if (e.which === 9 || e.which === 13) {
-                    $scope.login();
+                    $scope.funcLogin();
                 }
             });
             if ($stateParams.CheckUpdate === 'Y') {
@@ -594,13 +594,19 @@ appControllers.controller('DetailCtrl',
                 currentDate.setDate($scope.Update.datetime.getDate());
                 currentDate.setHours($scope.Update.datetime.getHours());
                 currentDate.setMinutes($scope.Update.datetime.getMinutes());
-                var jsonData = { "JobNo": $scope.strJobNo, "JobLineItemNo": $scope.strJobLineItemNo, "LineItemNo": $scope.strLineItemNo, "DoneFlag": $scope.strDoneFlag, "DoneDatetime": currentDate, "Remark": $scope.Update.remark, "ContainerNo": $scope.Update.ContainerNo };
+                var jsonData = null;
+                if ($scope.strDoneFlag === 'N') {
+                    jsonData = { "JobNo": $scope.strJobNo, "JobLineItemNo": $scope.strJobLineItemNo, "LineItemNo": $scope.strLineItemNo, "DoneFlag": $scope.strDoneFlag, "Remark": $scope.Update.remark, "ContainerNo": $scope.Update.ContainerNo };
+                } else {
+                    jsonData = { "JobNo": $scope.strJobNo, "JobLineItemNo": $scope.strJobLineItemNo, "LineItemNo": $scope.strLineItemNo, "DoneFlag": $scope.strDoneFlag, "DoneDatetime": currentDate, "Remark": $scope.Update.remark, "ContainerNo": $scope.Update.ContainerNo };     
+                }
+                //var jsonData = { "JobNo": $scope.strJobNo, "JobLineItemNo": $scope.strJobLineItemNo, "LineItemNo": $scope.strLineItemNo, "DoneFlag": $scope.strDoneFlag, "DoneDatetime": currentDate, "Remark": $scope.Update.remark, "ContainerNo": $scope.Update.ContainerNo };
                 var strUri = "/api/event/action/update/done";
                 var onSuccess = function (response) {
                     $ionicLoading.hide();
                     $state.go('list', { 'JobNo': $scope.strJobNo }, { reload: true });
                 };
-                var onError = function () {
+                var onError = function (response) {
                     $ionicLoading.hide();
                     var alertPopup = $ionicPopup.alert({
                         title: 'Connect to WebService failed.',
