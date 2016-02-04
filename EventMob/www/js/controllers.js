@@ -21,7 +21,7 @@ appControllers.controller('LoadingCtrl',
         }]);
 
 appControllers.controller('LoginCtrl',
-        ['$scope', '$http', '$state', '$stateParams', '$ionicPopup', '$timeout', '$ionicLoading', '$cordovaToast', '$cordovaFile', '$cordovaAppVersion', 'JsonServiceClient', 
+        ['$scope', '$http', '$state', '$stateParams', '$ionicPopup', '$timeout', '$ionicLoading', '$cordovaToast', '$cordovaFile', '$cordovaAppVersion', 'JsonServiceClient',
         function ($scope, $http, $state, $stateParams, $ionicPopup, $timeout, $ionicLoading, $cordovaToast, $cordovaFile, $cordovaAppVersion, JsonServiceClient) {
             var path = '';
             var directory = 'TmsApp';
@@ -87,7 +87,7 @@ appControllers.controller('LoginCtrl',
                 else if (roleType === 2) {
                     if ($scope.logininfo.strRole === 'Customer') {
                         return true;
-                    } 
+                    }
                     else if ($scope.logininfo.strRole === 'Transporter') {
                         return true;
                     } else {
@@ -193,10 +193,10 @@ appControllers.controller('LoginCtrl',
                             sessionStorage.setItem('strDriverName', '');
                             sessionStorage.setItem('strCustomerCode', $scope.logininfo.strCustomerCode);
                             sessionStorage.setItem('strJobNo', $scope.logininfo.strJobNo);
-                            sessionStorage.setItem('strRole', $scope.logininfo.strRole);                            
+                            sessionStorage.setItem('strRole', $scope.logininfo.strRole);
                             $state.go('listDirect', { 'JobNo': $scope.logininfo.strJobNo }, { reload: true });
                         };
-                    }                   
+                    }
                 }
                 JsonServiceClient.postToService(strUri, jsonData, onSuccess, onError);
             };
@@ -370,12 +370,15 @@ appControllers.controller('MainCtrl',
             $scope.returnLogin = function () {
                 $state.go('login', { 'CheckUpdate': 'N' }, { reload: true });
             };
-            var strDriverName = sessionStorage.getItem("strDriverName").toString();
-            var strPhoneNumber = sessionStorage.getItem("strPhoneNumber").toString();
-            if (strDriverName.length > 0) {
+            var strDriverName = sessionStorage.getItem('strDriverName');
+            var strPhoneNumber = sessionStorage.getItem('strPhoneNumber');
+            if (strDriverName != null && strDriverName.length > 0) {
                 $scope.strName = strDriverName;
             } else {
                 $scope.strName = "Driver";
+            }
+            if (strPhoneNumber === null) {
+                strPhoneNumber = '5888865';
             }
             $scope.strItemsCount = "loading...";
             $scope.showList = function (strJobNo) {
@@ -383,7 +386,7 @@ appControllers.controller('MainCtrl',
             };
             var funcShowList = function () {
                 $ionicLoading.show();
-                var strUri = '/api/event/action/list/jobno/';
+                var strUri = '/api/event/action/list/jobno/' + strPhoneNumber;
                 var onSuccess = function (response) {
                     $ionicLoading.hide();
                         if (response.data.results.length === 1 && $stateParams.blnForcedReturn === 'N') {
@@ -394,20 +397,29 @@ appControllers.controller('MainCtrl',
                 var onError = function () {
                     $ionicLoading.hide();
                 };
-                JsonServiceClient.getFromService(strUri + strPhoneNumber, onSuccess, onError);
+                JsonServiceClient.getFromService(strUri, onSuccess, onError);
             };
             funcShowList();
         }]);
 
 appControllers.controller('ListCtrl',
         ['$scope', '$state', '$stateParams', '$http', '$ionicPopup', '$timeout', '$ionicLoading', '$cordovaDialogs', 'JsonServiceClient',
-        function ($scope, $state, $stateParams, $http, $ionicPopup, $timeout, $ionicLoading, $cordovaDialogs, JsonServiceClient) {       
+        function ($scope, $state, $stateParams, $http, $ionicPopup, $timeout, $ionicLoading, $cordovaDialogs, JsonServiceClient) {
             $scope.JobNo = $stateParams.JobNo;
             var strJobNo = $scope.JobNo;
-            var strPhoneNumber = sessionStorage.getItem("strPhoneNumber").toString();
-            var strCustomerCode = sessionStorage.getItem("strCustomerCode").toString();
+            var strPhoneNumber = sessionStorage.getItem("strPhoneNumber");
+            var strCustomerCode = sessionStorage.getItem("strCustomerCode");
+            var strRole = sessionStorage.getItem("strRole");
+            if (strCustomerCode === null) {
+                strCustomerCode = '';
+            }
+            if (strPhoneNumber === null) {
+                strPhoneNumber = '5888865';
+            }
+            if (strRole === null) {
+                strRole = 'Driver/Ops';
+            }
             //var strJobNo = sessionStorage.getItem("strJobNo").toString();
-            var strRole = sessionStorage.getItem("strRole").toString();
             $scope.shouldShowDelete = false;
             if (strRole === 'Driver/Ops') {
                 $scope.listCanSwipe = true;
@@ -435,7 +447,7 @@ appControllers.controller('ListCtrl',
                     } else {
                         return false;
                     }
-                } 
+                }
                 else if (roleType === 3) {
                     if (strRole === 'Transporter') {
                         return true;
@@ -531,22 +543,26 @@ appControllers.controller('ListCtrl',
                     } else {
                         return false;
                     }
-                }                
+                }
             };
             var checkEventOrder = function (task) {
                 for (var i = 0; i <= $scope.tasks.length - 1; i++) {
                     if ($scope.tasks[i].JobLineItemNo < task.JobLineItemNo && $scope.tasks[i].AllowSkipFlag != 'Y') {
-                        return false;
+                        if($scope.tasks[i].DoneFlag != 'Y'){
+                            return false;
+                        }
                     }
                 }
                 return true;
             };
-            $scope.slideDone = function (task, strDoneFlag) {
-                if (strDoneFlag === 'N') {
-                    $state.go('detail', { 'ContainerNo': task.ContainerNo, 'JobNo': task.JobNo, 'JobLineItemNo': task.JobLineItemNo, 'LineItemNo': task.LineItemNo, 'Description': task.Description, 'Remark': task.Remark, 'DoneFlag': strDoneFlag });
+            $scope.slideDone = function (task, type) {
+                if (type === 'OPEN') {
+                    $state.go('detail', { 'Type': 'OPEN', 'ContainerNo': task.ContainerNo, 'JobNo': task.JobNo, 'JobLineItemNo': task.JobLineItemNo, 'LineItemNo': task.LineItemNo, 'Description': task.Description, 'Remark': task.Remark, 'DoneFlag': task.DoneFlag });
+                } else if (type === 'UPDATE') {
+                    $state.go('detail', { 'Type': 'UPDATE', 'ContainerNo': task.ContainerNo, 'JobNo': task.JobNo, 'JobLineItemNo': task.JobLineItemNo, 'LineItemNo': task.LineItemNo, 'Description': task.Description, 'Remark': task.Remark, 'DoneFlag': task.DoneFlag });
                 } else {
                     if (checkEventOrder(task)) {
-                        $state.go('detail', { 'ContainerNo': task.ContainerNo, 'JobNo': task.JobNo, 'JobLineItemNo': task.JobLineItemNo, 'LineItemNo': task.LineItemNo, 'Description': task.Description, 'Remark': task.Remark, 'DoneFlag': strDoneFlag });
+                        $state.go('detail', { 'Type': 'DONE', 'ContainerNo': task.ContainerNo, 'JobNo': task.JobNo, 'JobLineItemNo': task.JobLineItemNo, 'LineItemNo': task.LineItemNo, 'Description': task.Description, 'Remark': task.Remark, 'DoneFlag': task.DoneFlag });
                     } else {
                         var alertPopup = $ionicPopup.alert({
                             title: 'Previous event not Done.<br/>Not allow to do this one.',
@@ -558,34 +574,42 @@ appControllers.controller('ListCtrl',
                     }
                 }
             };
-            //
             getTasks();
         }]);
 
 appControllers.controller('DetailCtrl',
         ['$scope', '$stateParams', '$state', '$http', '$timeout', '$ionicLoading', '$ionicPopup', 'JsonServiceClient',
         function ($scope, $stateParams, $state, $http, $timeout, $ionicLoading, $ionicPopup, JsonServiceClient) {
-            $scope.strContainerNo = $stateParams.ContainerNo;
-            $scope.strJobNo = $stateParams.JobNo;
-            $scope.strJobLineItemNo = $stateParams.JobLineItemNo;
-            $scope.strLineItemNo = $stateParams.LineItemNo;
-            $scope.strDescription = $stateParams.Description;
-            $scope.Update = {};
-            $scope.Update.ContainerNo = $scope.strContainerNo;
-            $scope.Update.remark = $stateParams.Remark;
-            $scope.strDoneFlag = $stateParams.DoneFlag;
-            if ($scope.strDoneFlag === 'N') {
+            $scope.detail = {
+                Type            : $stateParams.Type,
+                ContainerNo     : $stateParams.ContainerNo,
+                JobNo           : $stateParams.JobNo,
+                JobLineItemNo   : $stateParams.JobLineItemNo,
+                LineItemNo      : $stateParams.LineItemNo,
+                Description     : $stateParams.Description,
+                DoneFlag        : $stateParams.DoneFlag
+            };
+            var currentDate = new Date();
+            $scope.Update = {
+                ContainerNo : $scope.detail.ContainerNo,
+                remark      : $stateParams.Remark,
+                datetime    : currentDate,
+                strDatetime : currentDate.getTime()
+            };
+            if ($scope.detail.Type === 'OPEN') {
+                $scope.strDoneOrUpdateTitle = 'Detail Infos';
+                $scope.strDoneOrUpdate = '';
+            }
+            else if ($scope.detail.Type === 'UPDATE') {
                 $scope.strDoneOrUpdateTitle = 'Update Remark';
                 $scope.strDoneOrUpdate = 'Update';
-            } else {
+            }
+            else {
                 $scope.strDoneOrUpdateTitle = 'Detail Infos';
                 $scope.strDoneOrUpdate = 'Done';
             }
-            var currentDate = new Date();
-            $scope.Update.datetime = currentDate;
-            $scope.Update.strDatetime = currentDate.getTime();
             $scope.returnList = function () {
-                $state.go('list', { 'JobNo': $scope.strJobNo }, { reload: true });
+                $state.go('list', { 'JobNo': $scope.detail.JobNo }, { reload: true });
             };
             $scope.update = function () {
                 $ionicLoading.show();
@@ -595,16 +619,15 @@ appControllers.controller('DetailCtrl',
                 currentDate.setHours($scope.Update.datetime.getHours());
                 currentDate.setMinutes($scope.Update.datetime.getMinutes());
                 var jsonData = null;
-                if ($scope.strDoneFlag === 'N') {
-                    jsonData = { "JobNo": $scope.strJobNo, "JobLineItemNo": $scope.strJobLineItemNo, "LineItemNo": $scope.strLineItemNo, "DoneFlag": $scope.strDoneFlag, "Remark": $scope.Update.remark, "ContainerNo": $scope.Update.ContainerNo };
-                } else {
-                    jsonData = { "JobNo": $scope.strJobNo, "JobLineItemNo": $scope.strJobLineItemNo, "LineItemNo": $scope.strLineItemNo, "DoneFlag": $scope.strDoneFlag, "DoneDatetime": currentDate, "Remark": $scope.Update.remark, "ContainerNo": $scope.Update.ContainerNo };     
+                if ($scope.detail.Type === 'UPDATE') {
+                    jsonData = { "JobNo": $scope.detail.JobNo, "JobLineItemNo": $scope.detail.JobLineItemNo, "LineItemNo": $scope.detail.LineItemNo, "DoneFlag": 'N', "Remark": $scope.Update.remark, "ContainerNo": $scope.Update.ContainerNo };
+                } else if ($scope.detail.Type === 'DONE') {
+                    jsonData = { "JobNo": $scope.detail.JobNo, "JobLineItemNo": $scope.detail.JobLineItemNo, "LineItemNo": $scope.detail.LineItemNo, "DoneFlag": 'Y', "DoneDatetime": currentDate, "Remark": $scope.Update.remark, "ContainerNo": $scope.Update.ContainerNo };
                 }
-                //var jsonData = { "JobNo": $scope.strJobNo, "JobLineItemNo": $scope.strJobLineItemNo, "LineItemNo": $scope.strLineItemNo, "DoneFlag": $scope.strDoneFlag, "DoneDatetime": currentDate, "Remark": $scope.Update.remark, "ContainerNo": $scope.Update.ContainerNo };
                 var strUri = "/api/event/action/update/done";
                 var onSuccess = function (response) {
                     $ionicLoading.hide();
-                    $state.go('list', { 'JobNo': $scope.strJobNo }, { reload: true });
+                    $state.go('list', { 'JobNo': $scope.detail.JobNo }, { reload: true });
                 };
                 var onError = function (response) {
                     $ionicLoading.hide();
@@ -614,7 +637,7 @@ appControllers.controller('DetailCtrl',
                     });
                     $timeout(function () {
                         alertPopup.close();
-                        $state.go('list', { 'JobNo': $scope.strJobNo }, { reload: true });
+                        $state.go('list', { 'JobNo': $scope.detail.JobNo }, { reload: true });
                     }, 2500);
                 };
                 JsonServiceClient.postToService(strUri, jsonData, onSuccess, onError);
