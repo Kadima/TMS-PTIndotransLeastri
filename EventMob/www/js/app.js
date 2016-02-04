@@ -4,7 +4,7 @@ var app = angular.module('EventMob', [
     'ngCordova.plugins.file',
     'EventMob.controllers'
 ]);
-    
+
 app.run(['$ionicPlatform', '$rootScope', '$state', '$location', '$timeout', '$ionicPopup', '$ionicHistory', '$ionicLoading', '$cordovaToast', '$cordovaFile',
     function ($ionicPlatform, $rootScope, $state, $location, $timeout, $ionicPopup, $ionicHistory, $ionicLoading, $cordovaToast, $cordovaFile) {
         $ionicPlatform.ready(function () {
@@ -181,7 +181,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider',
                 controller: 'ListCtrl'
             })
             .state('detail', {
-                url: '/detail/:ContainerNo/:JobNo/:JobLineItemNo/:LineItemNo/:Description/:Remark/:DoneFlag',
+                url: '/detail/:Type/:ContainerNo/:JobNo/:JobLineItemNo/:LineItemNo/:Description/:Remark/:DoneFlag',
                 cache: 'false',
                 templateUrl: 'view/detail.html',
                 controller: 'DetailCtrl'

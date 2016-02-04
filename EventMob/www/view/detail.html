@@ -1,45 +1,45 @@
 ﻿<ion-view title="Detail">
 	<ion-header-bar class="bar-positive">
 		<button class="button button-icon icon ion-navicon" ng-click="returnList()"></button>
-		<div class="h1 title" ng-bind="strDoneOrUpdateTitle"></div>
+		<div class="h1 title">
+            <span ng-bind="strDoneOrUpdateTitle"></span>
+        </div>
 	</ion-header-bar>
 	<ion-pane>
 		<div style="margin-top:4em;">
 			<div class="list card">
 				<div class="item">
-					<h2>Task Name&nbsp;&nbsp;:&nbsp;&nbsp;{{ strDescription }}</h2>
-					<p>Container No&nbsp;&nbsp;:&nbsp;&nbsp;{{ strContainerNo }}</p>
+					<h2>Task Name&nbsp;&nbsp;:&nbsp;&nbsp;<span ng-bind="detail.Description"></span></h2>
+					<p>Container No&nbsp;&nbsp;:&nbsp;&nbsp;<span ng-bind="detail.ContainerNo"></span></p>
 				</div>
 				<div class="item item-body">
-                    <form role="form" name="detail" class="form-horizontal" novalidate>
-                        <div class="list">
-                            <label class="item item-input item-stacked-label" ng-show="strDoneFlag!='N'">
-                                <i class="icon ion-android-calendar placeholder-icon"></i>
-                                <span class="input-label">Completed Time</span>
-                                <input type="datetime" ng-model="Update.strDatetime" date-Format readonly>
-                            </label>
-                            <label class="item item-input item-stacked-label">
-                                <i class="icon ion-android-document placeholder-icon"></i>
-                                <span class="input-label">Container No</span>
-                                <input name="ContainerNo" type="text" ng-model="Update.ContainerNo" ng-maxlength="13">
-                                <span style="color:red" ng-show="detail.ContainerNo.$invalid">
-                                    <span>Container No should be less than or equal to 13 characters.</span>
-                                </span>
-                            </label>
-                            <label class="item item-input item-stacked-label">
-                                <i class="icon ion-android-document placeholder-icon"></i>
-                                <span class="input-label">Remark</span>
-                                <textarea name="remark" class="comments" ng-model="Update.remark" placeholder="remark something here." rows="8em" cols="1"></textarea>
-                            </label>
-                        </div>
-                    </form>                        
+                    <div class="list">
+                        <label class="item item-input item-stacked-label" ng-if="detail.Type=='DONE'">
+                            <i class="icon ion-android-calendar placeholder-icon"></i>
+                            <span class="input-label">Completed Time</span>
+                            <input type="datetime" ng-model="Update.strDatetime" date-Format readonly>
+                        </label>
+                        <label class="item item-input item-stacked-label">
+                            <i class="icon ion-android-document placeholder-icon"></i>
+                            <span class="input-label">Container No</span>
+                            <input name="ContainerNo" type="text" ng-model="Update.ContainerNo" ng-maxlength="13" ng-readonly="detail.Type!='UPDATE'">
+                            <span style="color:red" ng-show="detail.ContainerNo.$invalid">
+                                <span>Container No should be less than or equal to 13 characters.</span>
+                            </span>
+                        </label>
+                        <label class="item item-input item-stacked-label">
+                            <i class="icon ion-android-document placeholder-icon"></i>
+                            <span class="input-label">Remark</span>
+                            <textarea name="remark" class="comments" ng-model="Update.remark" placeholder="remark something here." rows="8em" cols="1" ng-readonly="detail.Type!='UPDATE'"></textarea>
+                        </label>
+                    </div>
                 </div>
 			</div>
 		</div>
 	</ion-pane>
 	<ion-footer-bar>
 		<div class="button-bar">
-			<a class="button button-positive" ng-click="update()" ng-bind="strDoneOrUpdate" ng-disabled="detail.$invalid"></a>
+			<a class="button button-positive" ng-click="update()" ng-bind="strDoneOrUpdate" ng-disabled="detail.$invalid" ng-if="detail.Type!='OPEN'"></a>
 			<a class="button button-light" ng-click="returnList()">Cancel</a>
 		</div>
 	</ion-footer-bar>

@@ -72,10 +72,10 @@ angular.module('EventMob.services', ['ionic'])
         var strSignature = hex_md5(strBaseUrl + requestUrl + "?format=json" + strSecretKey.replace(/-/ig, ""));
         $http({
             method: "GET",
-            url: strWebServiceURL + strBaseUrl + requestUrl + "?format=json",
-            headers: {
-                "Signature": strSignature
-            }
+            url: strWebServiceURL + strBaseUrl + requestUrl + "?format=json"
+            //headers: {
+            //    "Signature": strSignature
+            //}
         }).success(function (response) {
             if (!response) {
                 if (onSuccess) onSuccess(null);
