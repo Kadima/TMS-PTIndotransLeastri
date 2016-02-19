@@ -389,10 +389,15 @@ appControllers.controller('MainCtrl',
                 var strUri = '/api/event/action/list/jobno/' + strPhoneNumber;
                 var onSuccess = function (response) {
                     $ionicLoading.hide();
+                        $scope.Jobs = response.data.results;
                         if (response.data.results.length === 1 && $stateParams.blnForcedReturn === 'N') {
                             $state.go('list', { 'JobNo': response.data.results[0].JobNo }, { reload: true });
+                        } else if (response.data.results.length < 1) {
+                            var alertPopup = $ionicPopup.alert({
+                                title: 'No Tasks.',
+                                okType: 'button-calm'
+                            });
                         }
-                        $scope.Jobs = response.data.results;
                     };
                 var onError = function () {
                     $ionicLoading.hide();
