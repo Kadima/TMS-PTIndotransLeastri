@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{53E82AC1-DD1D-4C66-B55F-F9F4ACFB2F40}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WebApi.ServiceModel</RootNamespace>
+    <AssemblyName>WebApi.ServiceModel</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ServiceStack, Version=3.9.71.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ServiceStack.3.9.71\lib\net35\ServiceStack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ServiceStack.Common, Version=3.9.71.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ServiceStack.Common.3.9.71\lib\net35\ServiceStack.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ServiceStack.Common.3.9.71\lib\net35\ServiceStack.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ServiceStack.OrmLite, Version=3.9.71.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ServiceStack.OrmLite.SqlServer.3.9.71\lib\net35\ServiceStack.OrmLite.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ServiceStack.OrmLite.SqlServer, Version=3.9.71.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ServiceStack.OrmLite.SqlServer.3.9.71\lib\net35\ServiceStack.OrmLite.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ServiceStack.Redis, Version=3.9.71.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ServiceStack.Redis.3.9.71\lib\net35\ServiceStack.Redis.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ServiceStack.ServiceInterface, Version=3.9.71.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ServiceStack.3.9.71\lib\net35\ServiceStack.ServiceInterface.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ServiceStack.Text, Version=3.9.71.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ServiceStack.Text.3.9.71\lib\net35\ServiceStack.Text.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Auth.cs" />
+    <Compile Include="CommonResponse.cs" />
+    <Compile Include="ConfigInterface.cs" />
+    <Compile Include="Freight\Freight_Login.cs" />
+    <Compile Include="Freight\Plvi.cs" />
+    <Compile Include="Freight\Smct.cs" />
+    <Compile Include="Freight\Smsa.cs" />
+    <Compile Include="Freight\Saus.cs" />
+    <Compile Include="Freight\Tracking.cs" />
+    <Compile Include="Freight\Rcvy.cs" />
+    <Compile Include="Freight\ViewPDF.cs" />
+    <Compile Include="Tables\Imgi2.cs" />
+    <Compile Include="Tables\Imgi1.cs" />
+    <Compile Include="Tables\Imgr1.cs" />
+    <Compile Include="Tables\Imgr2.cs" />
+    <Compile Include="Tables\Impr1.cs" />
+    <Compile Include="Tables\Jmje1.cs" />
+    <Compile Include="Tables\Omtx3.cs" />
+    <Compile Include="Tables\Omtx1.cs" />
+    <Compile Include="Tables\Jmjm1_Type.cs" />
+    <Compile Include="Tables\Jmjm1.cs" />
+    <Compile Include="Tables\Jmjm3.cs" />
+    <Compile Include="Tables\Jmjm4.cs" />
+    <Compile Include="Tables\Jmjm6.cs" />
+    <Compile Include="Tables\Plvi1.cs" />
+    <Compile Include="Tables\Rcvy1_sps.cs" />
+    <Compile Include="Tables\Rcvy1.cs" />
+    <Compile Include="Tables\Jmjt1.cs" />
+    <Compile Include="Tables\Rcsm1.cs" />
+    <Compile Include="Tables\Sibl2.cs" />
+    <Compile Include="Tables\Saco1.cs" />
+    <Compile Include="Tables\Smct2.cs" />
+    <Compile Include="Tables\Smct1.cs" />
+    <Compile Include="Tables\ViewPDF_Jmjm.cs" />
+    <Compile Include="Tables\ViewPDF_Ivcr.cs" />
+    <Compile Include="Tables\Smsa2.cs" />
+    <Compile Include="Tables\Smsa1.cs" />
+    <Compile Include="Tables\Tracking_OrderNo.cs" />
+    <Compile Include="Tables\Tracking_ContainerNo_SI.cs" />
+    <Compile Include="Tables\Tracking_ContainerNo_SE.cs" />
+    <Compile Include="Tables\Tracking_ContainerNo_AI.cs" />
+    <Compile Include="Tables\Tracking_ContainerNo_AE.cs" />
+    <Compile Include="Tables\Saus1.cs" />
+    <Compile Include="Tables\Imsn1.cs" />
+    <Compile Include="Tables\Rcbp3.cs" />
+    <Compile Include="Tables\Rcbp1.cs" />
+    <Compile Include="Event\List_Container.cs" />
+    <Compile Include="Event\List_Jmjm6.cs" />
+    <Compile Include="Event\List_JobNo.cs" />
+    <Compile Include="Event\Event_Login.cs" />
+    <Compile Include="Event\Update_Done.cs" />
+    <Compile Include="Tms\Jmjm.cs" />
+    <Compile Include="Tms\Sibl.cs" />
+    <Compile Include="Tms\Tms_Login.cs" />
+    <Compile Include="Utils\Download.cs" />
+    <Compile Include="Utils\Uploading.cs" />
+    <Compile Include="Wms\List_Imgi1.cs" />
+    <Compile Include="Wms\List_Imsn1.cs" />
+    <Compile Include="Wms\List_Imgi2.cs" />
+    <Compile Include="Freight\Rcbp.cs" />
+    <Compile Include="Wms\List_Imgr2.cs" />
+    <Compile Include="Wms\List_Impr1.cs" />
+    <Compile Include="Wms\List_Imgr1.cs" />
+    <Compile Include="Wms\List_Rcbp1.cs" />
+    <Compile Include="Wms\Wms_Login.cs" />
+    <Compile Include="Modfunction.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Wms\Confirm_Imgr1.cs" />
+    <Compile Include="Wms\Insert_Imsn1.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。启用“NuGet 程序包还原”可下载这些程序包。有关详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

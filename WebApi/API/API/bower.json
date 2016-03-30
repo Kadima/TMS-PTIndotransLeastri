@@ -1,0 +1,20 @@
+{
+  "name": "WebApi",
+  "version": "0.0.0",
+  "authors": [
+    "vivlong <vivlonglz@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "art-dialog": "~6.0.4",
+    "bootstrap": "~3.3.5",
+    "jquery": "~2.1.4"
+  }
+}
