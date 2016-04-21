@@ -26,7 +26,7 @@ html {
   top: 0; left: 0; bottom: 0; right: 0;
 }
 .Absolute-Center.is-Responsive {
-  width: 90%; 
+  width: 90%;
   height: 60%;
   min-width: 200px;
   max-width: 400px;
@@ -36,7 +36,7 @@ html {
   text-align: center;
   vertical-align:middle;
 }
-.Absolute-Center.is-Image img { 
+.Absolute-Center.is-Image img {
   width: 100%;
   height: auto;
 }
@@ -46,10 +46,16 @@ html {
 .mainList a {
 	text-decoration: none;
 }
-.comments { 
+.comments {
 	width:100%;
 	overflow:auto;
 }
 .bar-footer {
     height:3.2em;
 }
+.loader {
+  position: relative;
+  margin: 0px auto;
+  width: 100px;
+  height: 100px;
+  zoom: 1.7; }
