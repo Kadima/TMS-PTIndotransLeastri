@@ -1,49 +1,38 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<widget xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps" id="com.sysmagic.tms" version="1.0.23" xmlns="http://www.w3.org/ns/widgets" defaultlocale="en-US">
-  <name>TMS</name>
-  <description>
+<?xml version='1.0' encoding='utf-8'?>
+<widget defaultlocale="en-US" id="com.sysmagic.tms" version="1.0.23" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps">
+    <name>TMS</name>
+    <description>
 	EventList.
   </description>
-  <author email="vivlong@163.com" href="http://www.28story.com">SysMagic Software Solution</author>
-  <content src="index.html" />
-  <access origin="*" />
-  <vs:features />
-  <platform name="android">
-    <icon src="res/icons/android/icon-96-xhdpi.png" density="xhdpi" />
-  </platform>
-  <platform name="android">
-    <splash src="res/screens/android/screen-hdpi-portrait.png" density="port-hdpi" />
-    <splash src="res/screens/android/screen-ldpi-portrait.png" density="port-ldpi" />
-    <splash src="res/screens/android/screen-mdpi-portrait.png" density="port-mdpi" />
-    <splash src="res/screens/android/screen-xhdpi-portrait.png" density="port-xhdpi" />
-  </platform>
-  <preference name="Fullscreen" value="False" />
-  <preference name="SplashScreen" value="none" />
-  <preference name="SplashScreenDelay" value="10000" />
-  <preference name="KeepRunning" value="True" />
-  <preference name="ShowTitle" value="False" />
-  <preference name="InAppBrowserStorageEnabled" value="True" />
-  <preference name="SuppressesIncrementalRendering" value="False" />
-  <preference name="Orientation" value="portrait" />
-  <preference name="android-minSdkVersion" value="16" />
-  <preference name="android-targetSdkVersion" value="19" />
-  <preference name="webviewbounce" value="false" />
-  <preference name="UIWebViewBounce" value="false" />
-  <preference name="DisallowOverscroll" value="true" />
-  <preference name="BackupWebStorage" value="none" />
-  <vs:plugin name="cordova-plugin-device" version="1.0.1" />
-  <vs:plugin name="cordova-plugin-file" version="2.1.0" />
-  <vs:plugin name="cordova-plugin-file-transfer" version="1.2.1" />
-  <vs:plugin name="cordova-plugin-whitelist" version="1.0.0" />
-  <vs:plugin name="cordova-plugin-vibration" version="" />
-  <vs:plugin name="cordova-plugin-splashscreen" version="2.1.0" />
-  <vs:plugin name="cordova-plugin-dialogs" version="1.1.1" />
-  <vs:plugin name="cordova-plugin-statusbar" version="1.0.1" />
-  <vs:plugin name="cordova-plugin-console" version="1.0.1" />
-  <vs:plugin name="cordova-plugin-camera" version="1.2.0" />
-  <vs:plugin name="cordova-plugin-datepicker" version="0.8.6" />
-  <vs:plugin name="com.ionic.keyboard" version="1.0.4" />
-  <vs:plugin name="io.github.pwlin.cordova.plugins.fileopener2" version="1.0.11" />
-  <vs:plugin name="nl.x-services.plugins.toast" version="2.0.4" />
-  <vs:plugin name="uk.co.whiteoctober.cordova.appversion" version="0.1.7" />
+    <author email="vivlong@163.com" href="http://www.28story.com">SysMagic Software Solution</author>
+    <content src="index.html" />
+    <access origin="*" />
+    <vs:features />
+    <platform name="android">
+        <icon density="xhdpi" src="res/icons/android/icon-96-xhdpi.png" />
+    </platform>
+    <platform name="android">
+        <splash density="port-hdpi" src="res/screens/android/screen-hdpi-portrait.png" />
+        <splash density="port-ldpi" src="res/screens/android/screen-ldpi-portrait.png" />
+        <splash density="port-mdpi" src="res/screens/android/screen-mdpi-portrait.png" />
+        <splash density="port-xhdpi" src="res/screens/android/screen-xhdpi-portrait.png" />
+    </platform>
+    <preference name="Fullscreen" value="False" />
+    <preference name="SplashScreen" value="none" />
+    <preference name="SplashScreenDelay" value="10000" />
+    <preference name="KeepRunning" value="True" />
+    <preference name="ShowTitle" value="False" />
+    <preference name="InAppBrowserStorageEnabled" value="True" />
+    <preference name="SuppressesIncrementalRendering" value="False" />
+    <preference name="Orientation" value="portrait" />
+    <preference name="android-minSdkVersion" value="16" />
+    <preference name="android-targetSdkVersion" value="19" />
+    <preference name="webviewbounce" value="false" />
+    <preference name="UIWebViewBounce" value="false" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="BackupWebStorage" value="none" />
+    <preference name="xwalkVersion" value="17+" />
+    <preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect" />
+    <preference name="xwalkMode" value="embedded" />
+    <preference name="xwalkMultipleApk" value="true" />
 </widget>
